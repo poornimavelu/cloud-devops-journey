@@ -1,0 +1,320 @@
+## Why DevOps Exists
+
+### Waterfall Model
+
+Waterfall model, where, you know, like when clients gives us some kind of requirement, let's say, for example, client asks us to create some application. So we gather the requirement first, asking them, like, what do you want and do you want, how do you want, all those. And then we will be assigning the task to the specific team people, right?
+
+So what they will do, they will develop a code, and it will take around, like, one month or two months to develop the code according to the requirement. Then what happens is, like, after developing, they will be merging it together. But what happens, like sometimes one person would be using one version of Java, another person would be using another version of Java. So all these becomes a nuisance.
+
+Then it will take some time to figure it out, and it all will be, like, getting that. So we will be, like, getting all of this done, right? We will be rectifying it, and then we will test the code.
+
+So there will be a lot of bugs, our testing people will, like, clear it out, and then, like, that will take a bit of time. Then the actual testing will occur, like where the features are, if the features are working or not working, we will be testing it out.
+
+For example, if a feature is supposed to share the file, whether it is sharing the file or it is just opening the link or it is just standing over there, we really doesn't know. So all this feature testing has to be done.
+
+So even that is also done. So what we do, we will be, like deploying it, right? At last we will be, like, deploying it.
+
+But what happens is, like, sometimes it will be, like, working in our system, and then, like when the client is taking up, it will be, like some kind of different kind of issues, there will be some kind of bug, and all those will be there.
+
+So we will be, like, testing it all those, and we need to allocate some team to, like, monitor all those and then to observe whatever it is happening and all. So it was taking a lot of time.
+
+### Agile
+
+That's when Agile came up, right? So what was the difference between Waterfall and Agile?
+
+Waterfall, they were doing it only, like, after one big step is completed, they take on another big step.
+
+What Agile people decided is, like, okay, let's do it in a very simple way. What they will do is, like, they will do feature by feature.
+
+For example, let's say, like, if user asks for a website, okay? First they will develop the front page, like what you called as interactive login page. They will do everything, and they make sure all the teams are together, collecting the requirements, understanding what is actually required, and once the feature is developed, they will test write it right away and they will deploy it right away.
+
+It is called as, like, a sprint in their language. They will do it only, like, step by step.
+
+So what happened is, like, all these were going on, right? So Agile, this is how Agile was following up.
+
+But what happens is, like, even though all these were there, there were, like, a lot of gaps between certain things. That's when DevOps popped up, okay?
+
+### DevOps
+
+So what happens? Instantly, let's say, like, I write a code, I push it to the repository, like immediately it's tested and deployed, right? Like everything is instantly tested and deployed.
+
+And what happens is, like, it creates a culture where, like all the people work together instead of blaming each other, they all start working together, where, like, let's say, like, I am writing something, my friend is also in the same project, deploying another feature, developing another feature, another feature.
+
+So, like, once the code is written, it is, like immediately tested and it is, like, immediately deployed. And once it's deployed, the monitoring will also be going on, there will also be, like, observability something in case goes wrong.
+
+What happens is, like, it will just reduce the gap between the development team and operation team by doing, like, you know, continuously it will merge the code, and also continuously it will deploy the code.
+
+Okay. So that is what we call, like, even continuous integration and deployment, where whenever the code is getting pushed, and then it will be, like, continuously getting integrated and continuously getting deployed, like without waiting for some approval, or without doing this, and not without approval, but, like, yeah, continuously quick and quick, small and effective, without, like waiting for the whole process to be completed, right?
+
+That's how the DevOps came on.
+
+### Site Reliability Engineering (SRE)
+
+So what Site Reliability Engineers, like, they are responsible for maintaining the overall reliability, as the name suggests.
+
+Let's say, for example, some, if the application is running and around at 2 a.m. the server got crashed. So site reliability engineer will be the first one to get called up.
+
+So what they will do? They will come over there and they will, like, certain analyze, like, what went wrong. They will check the alerts and then they will understand, like, where did it go wrong, why did it go wrong, and they will be able to certain understand and analyze, like, okay, this is what happened.
+
+So, like, this is what has to be corrected, and they will be, like, correcting what went wrong over there. Okay? They will correct all of the things that went wrong.
+
+These are the people who will be, like, point of contact for us. Okay?
+
+Yeah. And they should always follow, like, SLA, SLI, and SLO.
+
+So SLA is, like, for example, let's say I am the client. You will let me know, like, how much availability will be there, how much scalability will be there.
+
+For example, if I have promised you, like 99.99 percentage of availability will be there, something goes wrong, for that 0.1 percentage I can mess up, but if something goes wrong, I need to pay you the penalty, right? So that's what the SLA is.
+
+SLO is, like, service level objective, which means, like, how long— how quickly I will be available, very simple, how quickly I will be available.
+
+For example, something goes wrong, the user raised an incident or anything, how quickly I can be available.
+
+And then service level indicator is, like, how much, like, you know, error has happened, how much at the last we can, like, understand, like, okay, this is how much of request was raised, this is how much of error has occurred, and this is how much of latency has occurred.
+
+So it's like a report. It can be, like, useful for us to understand and, like, correct the issue the next time, like, okay, this much latency has happened, so make sure to take the steps by analyzing the logs, metrics, and traces, and then we can make it better next time.
+
+This much latency has happened, let's see what went wrong, whether the server was fucking it up, or, like, anything else was messing it up.
+
+All these we can understand, and what error has contributed, that all we can understand.
+
+Yeah, and then like SRE people, mostly they will be like on-call rotation because we never know when something will be happening, right? So they have to be on an on-call rotation, most companies.
+
+And then there is something called error budget also, which will be like tagged to SREs.
+
+Like, for example, what does error budget means? When I, when I, like, ensure a customer, like 99.99 percentage of availability will be there, that 0.01 percentage will be like the SRE's error budget.
+
+### Platform Engineering
+
+So now what is platform engineer?
+
+So platform engineer is like, see, in DevOps we will be creating pipeline, we will be like pushing the code, pulling the code, testing it up, and then like automate something that has to be automated, and then we will make sure it is like continuously monitored.
+
+Even if something is messed up, we use observability and then understand and resolve the issue, okay.
+
+And SRE, as we said, like they are responsible for the errors, latency, and all those.
+
+And platform engineer, you know, like they will be the one that is like, as the name suggests, they will be the one who providing the platform for making all of this happen.
+
+Let's say if I am a DevOps engineer, I need to like, you know, login, I need to use a Docker, I need to maintain the Kubernetes, and all those.
+
+I will be creating a file and then like just wait for the approval, and then like I will be able to use the Docker, and then like again get another approval and then like I will be using the Kubernetes.
+
+So these are all like time-consuming.
+
+So what happens is, right, platform engineer, they will create something.
+
+They will create a platform and assign it to the site reliability engineer or to the DevOps people that everything is already pre-requested.
+
+It's like providing the DevOps engineer with a template. Like everything is already there, where the DevOps people can just fill out the form and start using it without like waiting for all those approval and all those.
+
+Okay. So that is like the thing.
+
+So basically we will be like building the things and provide it to the people.
+
+And also they will be having like a documentation, which is like very golden, because like you can understand, okay, this is how the thing works, and also if something error happens we can refer to the document and all those.
+
+Here ends the topic of like what is DevOps and why DevOps is needed and what was the waterfall model and what was the agile model and what was the SRE do, what does the platform engineer do.
+
+
+## Git and GitHub
+
+Firstly, what is, like, Git, GitHub? Okay. First, for that, we need to understand why Git and GitHub was developed at the first place, right?
+
+Everything should have been developed because it has to be replacing something that is not doing enough, right?
+
+So let's say that me and my friend is working in a project. So we are developing a calculator project. I developed for addition, he is developing for subtraction.
+
+So next day I am going and logging into work, I need his code so that, like, we can merge it together and push it to the production environment.
+
+But what happens? I need to go ask him, like, Bro, can you send me the code? And then, like, I can see, like, if any changes is required and all those, that is, like, apart from it. But, like, I need the code.
+
+So I need to go ask a person and ask him to send. So he will share it through any form of communication could be email or anything.
+
+But if it's just two persons also, it's very hectic. Let's imagine, like there is 50 persons in one project, working towards one project of a client.
+
+How will we be able to, like, get the code?
+
+It was taking a lot of time because we were sharing it manually through email or any other form of, like, communication.
+
+So one people sat and thought about it and developed something called Git. Okay? Git and GitHub.
+
+So Git is like, you know, a tool. Just simply we can explain. I can make you understand Git is a tool.
+
+So what it let you happen? Like it will allow you to push the code. Whatever you have written, you can, like, first commit it, and then, like, you can add a message, and then you can commit and push it, right?
+
+And then it will allow you to share the code also to pull the code.
+
+For example, your friend tells you, like, Bro, I have completed, you can go to the next step. You can just pull the code from him and then from the main branch and then you can, right, use the code.
+
+And anybody who made the changes to the code also we can understand.
+
+Before the Git and GitHub existed, if some changes were made, nobody would know it. The culprit will never be exposed.
+
+The person who developed the code will be blamed for it and he need to write it from the first, right?
+
+So two things comes over here.
+
+First thing is, like, we can analyze and understand who had made the changes. That's very, very useful. Like nobody will be blamed unnecessarily.
+
+So we can understand who made the changes.
+
+Secondly, like if some changes were made, previously we need to write it from the start. But here it's not required.
+
+There is something called version management, version control, right?
+
+So what happens? You made a mistake, no problem. You can jump to the previous version. It will be there. You can take it and start from there.
+
+You don't have to start from scratch. Best, you know, the best option.
+
+And, like GitHub. What is GitHub?
+
+So GitHub, you know, Git is a tool that will let you, you know, perform, like push, pull, and then, like, share the code and make everything merge and all those.
+
+But GitHub is like a repository, where, like, let's say, like you developed a code and you want it to be, like, public and free accessible by everybody, you can do that.
+
+You can just go there and, like, just save it in the repository and everybody can access it. It's, like, so much useful, you know?
+
+Let's say, like, you are a student, or, like, you're a new joiner, and then, like, you need a reference of some other code, and it can be fetched from the repository.
+
+You don't have to create everything from scratch, right?
+
+So, like, we can save it in the common space.
+
+So this is where Git and GitHub is used, the basic explanation of what Git and GitHub is.
+
+## Infrastructure as Code (IaC)
+
+So let's say, what does it do at first place? Why do we even have to learn what infrastructure as code is?
+
+So the thing is, it will be helping us to create the infrastructure through the code. Very simple textbook explanation is that.
+
+Let's say, like a manager asks you to create an EC2, okay? Or any inside AWS account, or Azure account, or in GCP.
+
+What we can do? Either we can go to the AWS account, we can log into the account and then go to the EC2 option and then give the option, what is the name, what is the region. We can select anything and then you can create it.
+
+If it is just one EC2, it's fine. If it is just two EC2, it's fine. But it is not possible if it's, like, 10 to 12.
+
+How much of manual effort is required just to create one EC2 instance? That is very time-consuming. It is possible, but very time-consuming, right?
+
+So what we can do? The script.
+
+What we can do is, the script will be, like, helping us over here, okay? It will save a lot of manual time that we take to create the infrastructure, okay?
+
+So what also it will let us know, like, what are the changes made by whom. We can easily understand, like, who made the changes.
+
+And then it will, let's say, for example, like we created an EC2 instance, 10 EC2 instances, but when we are deleting it manually, we deleted nine EC2, but forgot to delete the tenth one.
+
+It will be incurring charges on everyday basis, not just one day, two days, until it is discovered and deleted.
+
+Only at the end of the month we will be getting know, right? Until an alert has been set up, or anything else, or somebody is monitoring, only at the end of the month while getting the invoice we will know, okay, this was running and somebody forgot to delete it.
+
+That is not possible over here. It will save the cost. The manual will be, like, missing it, right?
+
+## Terraform
+
+Okay. So how do we do this? How do we, like, just create a script and understand it?
+
+Let's say, like there is a tool, there is a platform which is, like, helping us do this, right?
+
+There is not only one platform. There are many platforms, like if you are doing only in AWS, you can use AWS CloudFormation.
+
+If you are using only Azure, you can use Azure ARM template.
+
+If you are using GCP, you can use GCP deploy or something like that.
+
+And if you want to use only one particular resource that can be used for IAC in all cloud environment, that is Terraform.
+
+That's why Terraform is mostly used and mostly asked in all the interviews.
+
+Above all of that, it's open source, okay?
+
+So what happens is, like, we will be, like, writing the script, okay?
+
+The Terraform, the main thing that we have to understand is it uses HashiCorp Configuration Language. This is the one that is being followed in the Terraform.
+
+As I mentioned, it uses HashiCorp configuration language, okay?
+
+And this Terraform is developed by a thing called HashiCorp.
+
+I'm not going to give you all the history because that's definitely not required for your interview. Like who developed it, when they developed it, not required.
+
+So, when you are giving it, you need to first let the script know what provider you are using, AWS or Azure or Google, whatever.
+
+Then secondly, you need to give a region, okay?
+
+Then you need to let it know, like what you want to create, like EC2, whatever, VPC, and then the AMI value will be given, then the instance type will be given, okay?
+
+And the name, name for the thing that you are creating.
+
+So the best thing about Terraform is when you update the script, it will not just run it.
+
+It will give you a thing called Terraform plan, which will show you what are the things it will be created, where it will be created, all those, the detail.
+
+It's like a preview before submitting something.
+
+So once you go through the Terraform plan, you can understand, like, okay, this is what is going to be created.
+
+For example, sometimes by mistake we will be giving two instances to be created where only one is needed.
+
+All these can be avoided over here, okay?
+
+So that we can prevent, and then you can give Terraform apply, it will be created, okay?
+
+Best.
+
+And there is a main concept in Terraform, is called as idempotency.
+
+What does it mean?
+
+The theoretical way it means, like it produces the same result no matter how many times you run it.
+
+So what do you mean? What do you mean, Purnima?
+
+Like give me a practical example.
+
+Let's say, like you have created an EC2, but by mistake you ran the same script again, what if additional EC2 gets created?
+
+There will be lot of cost applied for two EC2, and we will not be noticing it, right?
+
+It will not happen in Terraform. Okay? It will never happen in Terraform, because what happens is once you run the Terraform file by applying, using the Terraform apply, it will go to the state file and check it.
+
+Like, already one EC2 is created. She is asking the same thing again. So it will not run it.
+
+It will store everything in state file, like one EC2 created, two EC2 created, and everything.
+
+Until you give extra requirement, it will not run it.
+
+The same output will be given for the same script that you run.
+
+Best thing.
+
+You know best thing.
+
+Manually it will be causing a lot of error.
+
+Sometimes people create one or two instead of three.
+
+Less EC2 will be created, or will create more than what is required and all those.
+
+But there is a thing.
+
+If you delete the state file and run it again, it will create another EC2, because it's wholly depend upon the state file, okay?
+
+And then there is a versioning as well.
+
+It will be saving the code, and you will be able to see who made the changes, what are the changes, and all those.
+
+So by chance if anything got crashed, you don't have to create everything again.
+
+Just run the same script again. It will create the infrastructure that we need.
+
+And if you want to delete all of this, you don't have to go delete manually in the AWS or Azure or GCP console.
+
+You can just give Terraform destroy.
+
+That's it.
+
+ 
+
+

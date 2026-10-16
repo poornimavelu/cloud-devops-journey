@@ -1,0 +1,184 @@
+raw_hostname = "   PROD-APP-SERVER-01.internal   "
+
+print ("Hostname is :",raw_hostname.strip())
+print ("Hostname is :",raw_hostname.lower())
+
+if raw_hostname = "*.internal"
+print ("Valid private host:")
+ else 
+print ("Invalid domain")
+
+domain_name= raw_hostname[:3]
+print ("name is", domain_name)
+
+raw_hostname = "   PROD-APP-SERVER-01.internal   "
+
+# 1 & 2: Clean and reassign
+cleaned_hostname = raw_hostname.strip().lower()
+print("Cleaned hostname is:", cleaned_hostname)
+
+# 3, 4, 5: Check extension using slicing or 'in' with proper indentation
+if cleaned_hostname[-9:] == ".internal":
+    print("Valid private host: " + cleaned_hostname)
+else:
+    print("Invalid domain")
+
+# 6: Slice the first 4 characters ('p', 'r', 'o', 'd')
+domain_prefix = cleaned_hostname[:4]
+print("Prefix is:", domain_prefix)
+
+
+...................................
+
+##for 
+
+
+div_5=0;
+
+for i in range (10,51):
+ if (i%3==0 and i%5==0):
+   print("dividable by both 3 and 5")
+elif (if i%3==0)
+    print("dividable only by 3")
+
+if (num%5==0)
+count+=1
+print ("number of divides by 5 is:", div_5)
+          
+
+          div_5=0;
+
+for i in range (10,51):
+  if (i%3==0 and i%5==0):
+   print("dividable by both 3 and 5")
+  elif  i%3 ==0:
+    print("dividable only by 3")
+
+  if (i%5==0):
+   div_5+=1
+print ("number of divides by 5 is:", div_5)
+...................................
+
+vowels_count=0;
+const_count=0;
+i=0;
+log_message = "Kubernetes Pod Eviction"
+final_message= "Kubernetes Pod Eviction".lower().strip()
+for char in final_message:
+  if char in "aeiou":
+    vowels_count+=1
+  else:
+    const_count+=1
+print("Total vowels is:",vowels_count + "Total constants is:",const_count)
+
+
+vowels_count = 0
+const_count = 0
+
+log_message = "Kubernetes Pod Eviction"
+final_message = log_message.lower()
+
+for char in final_message:
+    if char in "aeiou":
+        vowels_count += 1
+    elif char != " ":
+        const_count += 1
+
+print("Total vowels is:", vowels_count, "Total consonants is:", const_count)
+..................
+
+attempt = 1
+max_attempts=5
+delay=2
+while attempt <= max_attempts:
+      print("Attempt: {attempt},waiting {delay} seconds")
+delay*= 2
+attempt +=1
+print("Maximum retries reached. Service unavailable.")
+
+attempt = 1
+max_attempts = 5
+delay = 2
+
+while attempt <= max_attempts:
+    print(f"Attempt: {attempt}, waiting {delay} seconds")
+    delay *= 2
+    attempt += 1
+
+print("Maximum retries reached. Service unavailable.")
+
+........................
+
+api_key = "AIzaSyD-987234-SECRET-XYZ"
+length=str(len(api_key))
+print("Length is:",length)
+
+first_four=api_key[:4]
+last_four=api_key[-4:]
+print("First 4 is:",first_four)
+print("Last 4 is:",last_four)
+
+masked_key=api_key.replace("SECRET","******")
+print("Masked key is:",masked_key)
+
+.....................
+
+raw_bucket = "   DevOps-Log-Storage-2026   "
+san_bucket=raw_bucket.strip(),raw_bucket.lower(),raw_bucket.replace("-","_")
+print("First Six characters:",san_bucket[:5])
+print("Sanitized bucket name is:",san_bucket)
+
+
+raw_bucket = "   DevOps-Log-Storage-2026   "
+
+# Chain the methods from left to right on a single string
+san_bucket = raw_bucket.strip().lower().replace("-", "_")
+
+# Slicing the first 6 characters (indices 0, 1, 2, 3, 4, 5)
+print("First Six characters:", san_bucket[:6])
+print("Sanitized bucket name is:", san_bucket)
+
+............................
+
+cpu_usage = 85
+if cpu_usage >=90:
+    print("CRITICAL: Throttle alert!")   
+elif cpu_usage >=75:
+    print("WARNING: High utilization")
+elif cpu_usage >=0:
+    print("NORMAL: Within limits")
+else:
+    print("ERROR: Invalid metric")
+..........................
+
+port_number =0
+count=0
+for char in range (8000,8020,3):
+    print("Checking port:",port_number)
+    count += 1
+    while (port_number>=8020):
+        print("Total ports checked:",count)
+
+
+        count = 0
+
+# 8021 ensures 8020 is inclusive if reached
+for port_number in range(8000, 8021, 3):
+    print("Checking port:", port_number)
+    count += 1
+
+# Completely unindented so it runs once AFTER the loop finishes
+print("Total ports checked:", count)
+
+.................................
+
+memory_in_use=100
+threshold=40
+while(memory_in_use>threshold):
+    memory_in_use -= 15
+    print("Draining... Current memory",memory_in_use)
+
+print("Target reached. Node safe.")
+
+...................
+
