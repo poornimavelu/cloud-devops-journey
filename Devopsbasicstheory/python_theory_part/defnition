@@ -1,0 +1,5 @@
+The One-Second Decision TrickWhen you're writing code, just ask yourself:
+Need to store things and change them later? $\rightarrow$ List [ ]
+Need fixed info that should never be edited? $\rightarrow$ Tuple ( )
+Need to remove duplicate junk or check "is this name on the list?" $\rightarrow$ Set { }
+
