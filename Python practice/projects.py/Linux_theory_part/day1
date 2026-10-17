@@ -1,0 +1,140 @@
+================================================================================
+LINUX FILE SYSTEM & CORE COMMANDS NOTES
+================================================================================
+
+PART 1: LINUX DIRECTORY HIERARCHY (WHAT LIVES WHERE)
+--------------------------------------------------------------------------------
+
+/ (Root)
+- The starting point of the entire Linux filesystem hierarchy.
+- No drive letters (C:, D:) exist; all partitions and devices branch from here.
+
+/home
+- Workspaces for standard non-root users (e.g., /home/username).
+- Houses user files, configurations, and personal data.
+
+/root
+- Dedicated home directory of the system administrator (root user).
+- Kept on the root partition so admin access functions even if /home fails to mount.
+
+/bin (Binaries)
+- Core command-line executables required for basic operation and recovery.
+- Examples: ls, cp, mv, rm, cat, mkdir.
+
+/sbin (System Binaries)
+- Administrative management utilities intended for the root user.
+- Examples: fdisk, iptables, reboot, ip.
+
+/usr (Unix System Resources)
+- Secondary software library containing applications, utilities, and assets.
+- Houses non-critical user-space programs (/usr/bin), documentation, and tools.
+
+/lib
+- Core shared libraries and kernel modules required by binaries in /bin and /sbin.
+- Equivalent to .dll files in Windows; eliminates redundant code across programs.
+
+/etc
+- Central directory for system-wide and service configuration files.
+- Examples: network settings, SSH configurations (/etc/ssh), DNS (/etc/resolv.conf).
+
+/var (Variable)
+- Dynamic, constantly changing runtime data.
+- Stores system logs (/var/log), databases, print spools, and temporary caches.
+
+/tmp (Temporary)
+- Scratch storage for temporary files created by applications.
+- Cleared periodically or completely wiped upon system reboot.
+
+/dev (Devices)
+- Hardware device nodes exposed as files ("everything is a file").
+- Examples: /dev/sda (hard disk), /dev/null (data discard node).
+
+/proc (Processes)
+- In-memory virtual pseudo-filesystem created by the Linux kernel.
+- Consumes 0 bytes on disk; provides live system stats, PID metrics, and CPU data.
+
+/boot
+- Static files required to boot the machine.
+- Contains the compiled Linux kernel (vmlinuz), initramfs, and GRUB files.
+
+/media & /mnt
+- /media: Automatic mount directory for removable drives (USB, external disks).
+- /mnt: Manual mount point for administrators attaching disks or network shares.
+
+
+--------------------------------------------------------------------------------
+PART 2: COMMAND COMPARISONS
+--------------------------------------------------------------------------------
+
+1. rmdir vs. rm -rf
+
+Command: rmdir <directory>
+- Purpose: Removes empty directories only.
+- Mechanism: Makes an rmdir() system call. Fails immediately if any file, 
+  subfolder, or hidden dotfile exists inside.
+- Error when not empty: "Directory not empty".
+- Safety: Completely safe against accidental data deletion.
+
+Command: rm -rf <directory>
+- Purpose: Recursively and forcefully deletes directories and all their contents.
+- Flags:
+  -r: Recursive traversal (descends into every child directory and file).
+  -f: Force (ignores non-existent files and bypasses confirmation prompts).
+- Mechanism: Unlinks every child file inode and removes directories bottom-up.
+- Risk: Extremely dangerous if run with typos or unquoted shell variables 
+  (e.g., rm -rf /path /to/dir will target root).
+
+
+2. Vim Exit Commands: :wq vs. :q vs. :q! vs. :x
+
+Command: :q (Quit)
+- Action: Closes the current editor buffer and exits.
+- Safety: Fails and throws "E37: No write since last change" if modifications 
+  were made without saving.
+
+Command: :wq (Write and Quit)
+- Action: Saves (writes) memory buffer changes to disk, then exits Vim.
+- Note: Always updates the file's modification timestamp (mtime), even if no 
+  actual edits took place. Fails if opened without write permissions.
+
+Command: :q! (Force Quit / Discard)
+- Action: Exits immediately without saving.
+- Discards all unsaved edits made during the current editing session.
+
+Command: :x (Smart Exit)
+- Action: Writes only if modifications exist, then exits.
+- Difference from :wq: If you only viewed the file without changes, :x does not 
+  update the file timestamp.
+
+
+--------------------------------------------------------------------------------
+PART 3: QUICK CHEAT SHEET
+--------------------------------------------------------------------------------
+
+Directory   | Primary Purpose
+----------- | -------------------------------------------------------------
+/           | Top-level root of the whole filesystem
+/home       | Standard user workspaces
+/root       | Superuser administrator home directory
+/bin        | Essential system command binaries (ls, cp, rm)
+/sbin       | Administrative system tools (fdisk, reboot)
+/usr        | Software library and installed packages (/usr/bin)
+/etc        | System and daemon configuration text files
+/lib        | Shared libraries used by executables (.so files)
+/var        | Variable growing data and logs (/var/log)
+/tmp        | Ephemeral scratch files (purged on reboot)
+/dev        | Hardware device representation nodes
+/proc       | Live in-memory kernel/process statistics
+/boot       | Kernel binaries and bootloader files
+/media      | Automatic mount point for removable storage
+/mnt        | Manual mount point for disks and network shares
+
+Command     | Behavior
+----------- | -------------------------------------------------------------
+rmdir dir   | Deletes 'dir' ONLY if completely empty (fails if files exist)
+rm -rf dir  | Forcibly and recursively wipes 'dir' and all contents inside
+:q          | Quits Vim (refuses if unsaved edits exist)
+:wq         | Writes changes to disk, updates mtime, and quits Vim
+:q!         | Quits Vim immediately, discarding all unsaved edits
+:x          | Writes only if changes exist, then quits
+================================================================================
