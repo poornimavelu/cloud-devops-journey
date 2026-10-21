@@ -138,3 +138,275 @@ rm -rf dir  | Forcibly and recursively wipes 'dir' and all contents inside
 :q!         | Quits Vim immediately, discarding all unsaved edits
 :x          | Writes only if changes exist, then quits
 ================================================================================
+
+The Mechanism
+> (Truncate & Overwrite):
+
+Opens the target file with the O_WRONLY | O_CREAT | O_TRUNC flags.
+
+If the file exists, the filesystem immediately sets its file length to 0 (truncation), dropping prior content before writing the new stream.
+
+If the file does not exist, it creates a new regular file.
+
+>> (Append):
+
+Opens the target file with the O_WRONLY | O_CREAT | O_APPEND flags.
+
+Does not modify existing contents. The file offset is automatically moved to the end of the file before every write operation.
+
+=======================================================================================
+
+ABSOLUTE VS. RELATIVE PATHS IN LINUX
+================================================================================
+
+1. CORE DEFINITIONS
+--------------------------------------------------------------------------------
+Absolute Path:
+- Specifies the exact, full address of a file or directory starting from the root (/).
+- Always begins with a forward slash (/).
+- Works identically no matter where you are currently standing in the filesystem.
+- Analogy: A complete postal address with country, city, street, and house number.
+
+Relative Path:
+- Specifies the path in relation to your current working directory (pwd).
+- Never begins with a forward slash (/).
+- Meaning and target change whenever you switch directories (cd).
+- Analogy: Directions relative to where you stand ("walk two doors down").
+
+
+2. KEY RELATIVE PATH SYMBOLS
+--------------------------------------------------------------------------------
+.  (Single Dot)
+- Refers to the CURRENT directory you are in right now.
+- Example: ./script.sh tells the shell to run the script inside the current folder
+  instead of searching the system $PATH.
+
+.. (Double Dot)
+- Refers to the PARENT directory (one level up the tree).
+- Example: cd .. moves one step up.
+- Example: ../../etc moves two steps up, then into the etc folder.
+
+
+3. VISUAL DIRECTORY TREE EXAMPLE
+--------------------------------------------------------------------------------
+Assume this directory layout on disk:
+
+/ (root)
+├── var/
+│   └── log/
+│       └── app.log
+└── home/
+    └── user/
+        ├── movies/
+        │   └── clip.mp4
+        └── projects/           <-- [CURRENT WORKING DIRECTORY: pwd]
+            ├── script.sh
+            └── config.json
+
+
+Scenario A: Run script.sh (located inside current directory)
+- Absolute: /home/user/projects/script.sh
+- Relative: ./script.sh
+
+Scenario B: Read app.log (located across the filesystem in /var/log)
+- Absolute: /var/log/app.log
+- Relative: ../../../var/log/app.log
+
+Scenario C: Switch into sibling directory 'movies'
+- Absolute: cd /home/user/movies
+- Relative: cd ../movies
+
+Scenario D: Create a folder called 'data' inside current directory
+- Absolute: mkdir /home/user/projects/data
+- Relative: mkdir data   (or mkdir ./data)
+
+
+4. UNDERLYING MECHANISM: HOW LINUX RESOLVES PATHS
+--------------------------------------------------------------------------------
+- Every process tracks two directory pointers in kernel memory (fs_struct):
+  1. root: Base of the process namespace (normally /).
+  2. pwd: The current working directory inode.
+
+- Path resolution rule:
+  - If the path starts with '/', the kernel starts resolution at root.
+  - If the path starts with anything else, resolution starts at pwd.
+
+
+5. WHEN THINGS BREAK (COMMON TRAPS & FIXES)
+--------------------------------------------------------------------------------
+Trap 1: Broken Cron Jobs & systemd Services
+- Problem: A script containing "cat config.json" runs fine manually, but fails
+  with "No such file or directory" when triggered by Cron.
+- Cause: Cron runs from /root or /home/user by default, not your project folder.
+- Fix: Always use absolute paths in automation, or dynamically resolve the path:
+  SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+  cat "$SCRIPT_DIR/config.json"
+
+Trap 2: Broken Symlinks
+- Problem: Moving a symbolic link or copying files across servers breaks the link.
+- Cause: Absolute symlinks point to a hardcoded path that may not exist in the new
+  environment.
+- Fix: Use relative symlinks inside project repositories so they remain portable:
+  ln -s ../shared/config.json ./config.json
+
+
+6. QUICK CHEAT SHEET
+--------------------------------------------------------------------------------
+Path Type     Starts With?       Depends on pwd?   Best Used For
+-----------   ----------------   ---------------   -----------------------------
+Absolute      Always starts /    No                Scripts, Cron, systemd, IaC
+Relative      Names, ., or ..    Yes               Interactive terminal work
+
+Useful Commands:
+- pwd                  -> Prints current absolute working directory
+- realpath <path>      -> Converts any relative path into its absolute path
+================================================================================
+• . (Single Dot): Represents your current directory. It tells the system, "look right here."
+• .. (Double Dot): Represents the parent directory. It moves you one level up in the folder structure.
+• ~ (Tilde): Represents your home directory (e.g., /home/username). It is a quick shortcut to your personal files from anywhere in the system.
+• - (Dash): Represents the previous working directory. It acts like a "back" button, toggling you back to the folder you were in just before your last cd command.
+=============================================================
+Quick Summary
+basename = "What is the name of this file?"
+
+dirname = "Where does this file live?"
+
+Example
+Take this path: /home/user/documents/notes.txt
+
+basename:
+
+Bash
+basename /home/user/documents/notes.txt
+Output: notes.txt
+
+dirname:
+
+Bash
+dirname /home/user/documents/notes.txt
+Output: /home/user/documents
+
+============================================================================
+
+Summary Rule of Thumb
+Use dirname / basename when you need to split or modify path names (e.g., getting a file's name, changing an extension, or finding its immediate parent folder).
+
+Use realpath / readlink when you need to trace where a symlink actually points or convert messy paths (../..) into a single, clean absolute path.
+
+================================
+Day 2 :
+
+# Linux File Permissions & Ownership — Quick Notes
+
+## 1. Fundamentals
+* **Multi-User Isolation:** Protects system directories (`/etc`, `/bin`) and prevents users from modifying or deleting files created by others.
+* **Default Setup:** Linux assigns basic permissions automatically upon file or directory creation.
+
+---
+
+## 2. Reading the Permission String (`ls -l`)
+A 10-character string broken into file type and three distinct sets:
+
+| Segment | Position | Represents | Description |
+| :--- | :--- | :--- | :--- |
+| **Type** | Index 0 | File / Directory | `-` = regular file, `d` = directory |
+| **Owner (u)** | Indices 1–3 | User | Permissions for the creator/owner |
+| **Group (g)** | Indices 4–6 | Group | Permissions for members of the owner's group |
+| **Others (o)**| Indices 7–9 | Others | Permissions for everyone else on the system |
+
+### Permission Types
+* `r` (**Read**): View file contents / list directory items.
+* `w` (**Write**): Modify file contents / add or remove directory entries.
+* `x` (**Execute**): Run the file / traverse (`cd`) into the directory.
+* `-` (**None**): Access not granted.
+
+---
+
+## 3. Managing Permissions (`chmod`)
+
+### Octal / Numeric Mode
+Each permission has a numeric weight:
+* `r` = **4**
+* `w` = **2**
+* `x` = **1**
+* `-` = **0**
+
+Values are summed per category (`u`, `g`, `o`):
+* `7` (`4+2+1`) = `rwx` (Full access)
+* `6` (`4+2+0`) = `rw-` (Read + Write)
+* `5` (`4+0+1`) = `r-x` (Read + Execute)
+* `4` (`4+0+0`) = `r--` (Read-only)
+* `0` (`0+0+0`) = `---` (No permissions)
+
+**Common Numeric Commands:**
+```bash
+chmod 777 file.sh    # Read, write, execute for Owner, Group, Others
+chmod 764
+
+======================================================
+
+# Linux Special Permissions: SUID, SGID, and Sticky Bit
+
+## 1. Overview
+Standard Linux permissions rely on User (Owner), Group, and Other read (`r`), write (`w`), and execute (`x`) bits. Special permissions introduce an extra 4th permission digit prepended to octal notation, allowing elevated task execution or safe file sharing without handing out full `root` access.
+
+---
+
+## 2. SetUID (SUID) — Set User ID
+* **Numeric Value:** `4`
+* **Symbolic Value:** `s` (replaces the user's execute bit `x`)
+* **Mechanism:**
+  * When an executable with SUID is run, the operating system executes the process with the privileges of the **file owner** rather than the user running it.
+* **Core Example:**
+  * Changing passwords with `/usr/bin/passwd`.
+  * The password hash is stored in `/etc/shadow`, which is owned by `root` with `0640` or `0000` permissions (unprivileged users cannot directly write to it).
+  * `passwd` has SUID enabled (`-rwsr-xr-x`). When an unprivileged user executes it, the process briefly runs with `root` privileges to safely update `/etc/shadow`.
+* **Commands:**
+  * Symbolic: `chmod u+s /path/to/file`
+  * Octal: `chmod 4755 /path/to/file`
+
+---
+
+## 3. SetGID (SGID) — Set Group ID
+* **Numeric Value:** `2`
+* **Symbolic Value:** `s` (replaces the group's execute bit `x`)
+* **Mechanism:**
+  * **On files:** The process executes with the privileges of the **group owner** of the file instead of the user's primary group (e.g., binaries requiring access to `tty` or specific device groups).
+  * **On directories (common in shared workspaces):** Any new file or sub-directory created inside inherits the **group ownership** of the parent directory, not the primary group of the user who created it.
+* **Commands:**
+  * Symbolic: `chmod g+s /path/to/file_or_dir`
+  * Octal: `chmod 2755 /path/to/file_or_dir`
+  * Example full-access group folder: `chmod 2777 /shared/dir`
+
+---
+
+## 4. Sticky Bit
+* **Numeric Value:** `1`
+* **Symbolic Value:** `t` (replaces the "others" execute bit `x`)
+* **Mechanism:**
+  * Applied to shared writable directories.
+  * Allows all users to create and modify files, but prevents users from deleting or renaming files owned by others.
+  * A file can only be deleted/renamed by:
+    1. The owner of the file.
+    2. The owner of the directory (`root`).
+* **Core Example:**
+  * The `/tmp` directory (`drwxrwxrwt`). Many processes and users write temporary files here, but no normal user can delete another user's temp files.
+* **Useful Flag:**
+  * `ls -ld /tmp` (the `-d` flag lists directory properties instead of its contents).
+* **Commands:**
+  * Symbolic: `chmod +t /path/to/folder` (or `chmod o+t /path/to/folder`)
+  * Octal: `chmod 1755 /path/to/folder` (or `chmod 1777 /shared/folder`)
+
+---
+
+## 5. Quick Reference Table
+
+| Special Bit | Octal Value | Symbolic Flag | Location in `ls -l` | Primary Use Case |
+|---|---|---|---|---|
+| **SetUID** | `4` | `u+s` | Owner execute (`rws------`) | Run binary as file owner (e.g., `passwd`) |
+| **SetGID** | `2` | `g+s` | Group execute (`---rws---`) | Run as group / inherit group on folder contents |
+| **Sticky Bit** | `1` | `+t` / `o+t` | Others execute (`------rwt`) | Prevent deletion of others' files in shared folders (e.g., `/tmp`) |
+
+> **Note on Capital Letters (`S` vs `s`, `T` vs `t`):**
+> * Lowercase (`s`, `t`) means the underlying execute bit (`x`) **is set**.
+> * Uppercase (`S`, `T`) means the special bit is set, but the underlying execute bit (`x`) **is missing** (misconfiguration/warning).
